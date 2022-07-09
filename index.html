@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Url Shortener</title>
+      <!-- <link rel="stylesheet" href="style.css" /> -->
+      <style>
+         body {
+         background-color: #c2dbe0;
+         color: black;
+         margin: 0;
+         font-family: sans-serif;
+         }
+         .header {
+         margin: 30px;
+         padding-bottom: 20px;
+         }
+         h1 {
+         font-size: 5rem;
+         text-align: center;
+         margin: 0;
+         }
+         p {
+         font-size: 1.6rem;
+         text-align: center;
+         margin: 0;
+         }
+         .Url_Shortener {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         }
+         .input,
+         .output {
+         width: 500px;
+         height: 50px;
+         padding-left: 50px;
+         border: 3px solid black;
+         font-size: 1.5rem;
+         }
+         .shorten {
+         width: 100px;
+         height: 60px;
+         border: none;
+         color: white;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="header">
+         <h1>Web app to shorten urls</h1>
+         <p>Developed by Anket Patil using HTML,CSS and vanilla Js</p>
+      </div>
+      <div class="Url_Shortener">
+         <input type="url" placeholder="Enter your URL" class="input" id="input" name="input" />
+         <button class="shorten">Shorten</button>
+         <input type="url" class="output" name="output" id="output1"/>
+         <input type="url" class="output" name="output" id="output2" />
+      </div>
+      <!-- <script src="index.js"></script> -->
+      <script>
+         document.querySelector(".shorten").addEventListener("click", shortenUrl);
+         
+         function shortenUrl(e) {
+         let link = document.querySelector("#input").value;
+         var lastCode;
+         fetch("https://api-ssl.bitly.com/v4/shorten", {
+         method: "POST",
+         headers: {
+         Authorization: "Bearer 922e3639832cb5ecc99ecdd0faadaa8095115c94",
+         "Content-Type": "application/json",
+         },
+         body: JSON.stringify({ long_url: link, domain: "bit.ly" }),
+         })
+         .then((res) => res.json())
+         .then((response) => {
+         document.querySelector("#output1").value = response.link
+         document.querySelector("#output2").value = document.querySelector("#output1").value.replace("https://bit.ly/","http://myt.lb/");
+         });
+         }
+      </script>
+   </body>
+</html>
